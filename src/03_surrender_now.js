@@ -37,10 +37,11 @@ const exampleWeaknesses = require("../data/weaknesses");
  */
 function filterByType(pokemon, type) {
   let pokedex = [];
-  if (!type) { //Checking if type is undefined
-    type = 'normal'; //Setting to normal
+  if (!type) {
+    //Checking if type is undefined
+    type = "normal"; //Setting to normal
   }
-  type = type.toLowerCase(); 
+  type = type.toLowerCase();
   for (let pokemans of pokemon) {
     for (let pType of pokemans.type) {
       pType = pType.toLowerCase();
@@ -57,12 +58,12 @@ function filterByType(pokemon, type) {
  * -----------------------------
  * Returns all names of Pokemon that have a `type` to which the given `type` is weak.
  * @param {Object[]} pokemon - An array of Pokemon. See the `poke.js` file for an example of this array.
- * @param {object} weaknesses - An object where the keys are Pokemon types and the values are and array of the types of Pokemon to which the given type is weakened.
+ * @param {object} weaknesses - An object where the keys are Pokemon types and the values are an array of the types of Pokemon to which the given type is weakened.
  * @param {string} type - A type as a string. (e.g. "Psychic")
  * @returns {Object[]} An array of unique Pokemon names where the at least one of its types is a `type` the passed in `type` is weakened by.
  *
  * EXAMPLE:
- *  getPokemonNamesMostEffectiveAgainstType(pokemon, weaknesses, "Dragon");
+ *  getPokemonNamesMostEffectiveAgainstType(pokemon, weaknesses, "Dragon"); <--- Pokemon that are weak to 'Dragon'
  *  //> [
         "Dratini",
         "Dragonair",
@@ -72,7 +73,22 @@ function filterByType(pokemon, type) {
  *  //> [];
  */
 function getPokemonNamesMostEffectiveAgainstType(pokemon, weaknesses, type) {
-  
+  let pokeBalls = []; //returning this
+  if (!weaknesses[type]) {
+    return `No Pokemon found of type: '${type}'.`;
+  }
+  for (let pokeman of pokemon) {
+    //Looping through the pokemon
+    for (let baseType of pokeman.type) {
+      if (
+        weaknesses[type].includes(baseType) &&
+        !pokeBalls.includes(pokeman.name)
+      ) {
+        pokeBalls.push(pokeman.name);
+      }
+    }
+  }
+  return pokeBalls;
 }
 
 module.exports = {
